@@ -1,1 +1,148 @@
-<a href="booking.html" class="button">📅 BOOK YOUR APPOINTMENT</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Appointment | DK Auto Aesthetics</title>
+
+<style>
+body {
+font-family: Arial;
+margin: 0;
+background: #1a1a1a;
+color: white;
+padding: 20px;
+}
+
+h1 { color: #d4af37; }
+
+.card {
+background: #2d2d2d;
+padding: 20px;
+border-radius: 10px;
+margin-bottom: 15px;
+}
+
+label {
+font-size: 0.9rem;
+color: #ccc;
+margin-top: 10px;
+display:block;
+}
+
+input, select {
+width: 100%;
+padding: 10px;
+margin-top: 5px;
+border-radius: 5px;
+border: none;
+}
+
+button, a.button {
+display: inline-block;
+background: #d4af37;
+color: black;
+padding: 12px 20px;
+border-radius: 5px;
+text-decoration: none;
+font-weight: bold;
+margin-top: 10px;
+border: none;
+cursor: pointer;
+width: 100%;
+text-align: center;
+}
+
+.small {
+color:#aaa;
+font-size: 0.85rem;
+margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🚗 Book Your Appointment</h1>
+
+<div class="card">
+
+<h2>Service Details</h2>
+
+<label>Choose Service</label>
+<select id="service">
+<option>Basic Wash</option>
+<option>Deluxe Exterior</option>
+<option>Deep Interior Clean</option>
+<option>Full Interior Detail</option>
+<option>Premium Full Detail</option>
+<option>Ultimate Detail</option>
+<option>Headlight Restoration (Add-On)</option>
+<option>Pet Hair Removal (Add-On)</option>
+<option>Engine Bay Cleaning (Add-On)</option>
+</select>
+
+<label>Select Date & Time</label>
+<input type="datetime-local" id="datetime">
+
+<label>Your Name</label>
+<input type="text" id="name" placeholder="John Doe">
+
+<label>Phone Number</label>
+<input type="text" id="phone" placeholder="856-xxx-xxxx">
+
+<label>Address</label>
+<input type="text" id="address" placeholder="Service location">
+
+<h2>Payment Options</h2>
+<select id="payment">
+<option>Pay Cash (on arrival)</option>
+<option>Apple Pay / Zelle (text instructions sent)</option>
+<option>Card Payment (Stripe Invoice)</option>
+</select>
+
+<button onclick="submitBooking()">📩 Submit Booking</button>
+
+<a class="button" href="tel:8568832195">📞 Call / Text Now</a>
+
+<p class="small">⚠️ You will receive a confirmation text after booking</p>
+
+</div>
+
+<script>
+function submitBooking() {
+let data = {
+service: document.getElementById('service').value,
+date: document.getElementById('datetime').value,
+name: document.getElementById('name').value,
+phone: document.getElementById('phone').value,
+address: document.getElementById('address').value,
+payment: document.getElementById('payment').value
+};
+
+// OPTION 1: GOOGLE SHEETS / REAL BACKEND (YOU ADD URL)
+const scriptURL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+
+if(scriptURL.includes("PASTE")) {
+alert("Booking captured locally. Connect Google Sheets or backend to go live.");
+console.log(data);
+} else {
+fetch(scriptURL, {
+method: "POST",
+body: JSON.stringify(data)
+})
+.then(res => res.text())
+.then(() => {
+alert("Booking submitted successfully!");
+})
+.catch(err => alert("Error submitting booking"));
+}
+
+// backup email fallback
+let emailBody = `Service: ${data.service}%0ADate: ${data.date}%0AName: ${data.name}%0APhone: ${data.phone}%0AAddress: ${data.address}%0APayment: ${data.payment}`;
+window.location.href = `mailto:garnesgevin1738@gmail.com?subject=New Booking&body=${emailBody}`;
+}
+</script>
+
+</body>
+</html>
